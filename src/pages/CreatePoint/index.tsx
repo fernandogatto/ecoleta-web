@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useCallback, ChangeEvent } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  ChangeEvent,
+  FormEvent,
+} from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import { Map, TileLayer, Marker } from 'react-leaflet';
@@ -43,9 +49,18 @@ const CreatePoint: React.FC = () => {
 
   const [selectedUf, setSelectedUf] = useState('0');
   const [selectedCity, setSelectedCity] = useState('0');
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+
+  const [inputData, setInputData] = useState({
+    name: '',
+    email: '',
+    whatsapp: '',
+  });
 
   const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0, 0]);
   const [initialPosition, setInitialPosition] = useState<[number, number]>([0, 0]);
+
+  const history = useHistory();
 
   const handleSelectUf = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
     const uf = event.target.value;
@@ -54,12 +69,58 @@ const CreatePoint: React.FC = () => {
 
   const handleSelectCity = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
     const city = event.target.value;
+
     setSelectedCity(city);
   }, [selectedCity]);
 
   const handleMapClick = useCallback((event: LeafletMouseEvent) => {
     setSelectedPosition([event.latlng.lat, event.latlng.lng]);
   }, []);
+
+  const handleInputChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    setInputData({...inputData, [name]: value});
+  }, [inputData]);
+
+  const handleSelectItem = useCallback((id: string) => {
+    const alreadySelected = selectedItems.findIndex(item => item === id);
+
+    if(alreadySelected >= 0) {
+      const filteredItems = selectedItems.filter(item => item !== id);
+
+      setSelectedItems([...filteredItems]);
+    } else {
+      setSelectedItems([...selectedItems, id]);
+    }
+  }, [selectedItems]);
+
+  const handleSubmit = useCallback(async (event: FormEvent) => {
+    event.preventDefault();
+
+    const { name, email, whatsapp } = inputData;
+    const uf = selectedUf;
+    const city = selectedCity;
+    const [latitude, longitude] = selectedPosition;
+    const items = selectedItems;
+
+    const data =  {
+      name,
+      email,
+      whatsapp,
+      uf,
+      city,
+      latitude,
+      longitude,
+      items,
+    }
+
+    await api.post('/points', data);
+
+    alert('Ponto de coleta criado');
+
+    history.push('/');
+  }, [inputData, selectedUf, selectedCity, selectedPosition, selectedItems]);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(position => {
@@ -115,7 +176,7 @@ const CreatePoint: React.FC = () => {
       </Header>
 
       <Content>
-        <form>
+        <form onSubmit={handleSubmit}>
           <h1>Cadastro do <br/>ponto de coleta</h1>
 
           <fieldset>
@@ -130,6 +191,7 @@ const CreatePoint: React.FC = () => {
                   type="text"
                   name="name"
                   id="name"
+                  onChange={handleInputChange}
                 />
               </Field>
             </FieldGroup>
@@ -141,6 +203,7 @@ const CreatePoint: React.FC = () => {
                   type="email"
                   name="email"
                   id="email"
+                  onChange={handleInputChange}
                 />
               </Field>
 
@@ -150,6 +213,7 @@ const CreatePoint: React.FC = () => {
                   type="tel"
                   name="whatsapp"
                   id="whatsapp"
+                  onChange={handleInputChange}
                 />
               </Field>
             </FieldGroup>
@@ -213,7 +277,8 @@ const CreatePoint: React.FC = () => {
               {items.map(item => (
                 <li
                   key={item.id}
-                 className="selected"
+                  onClick={() => handleSelectItem(item.id)}
+                  className={selectedItems.includes(item.id) ? 'selected' : ''}
                 >
                   <img src={item.image_url} alt={item.title}/>
                   <span>{item.title}</span>
