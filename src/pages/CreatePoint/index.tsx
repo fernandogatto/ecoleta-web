@@ -26,7 +26,6 @@ import {
   FieldCheck,
   ItemsGrid,
 } from './styles';
-import './styles.css';
 
 interface IItem {
   id: string;
