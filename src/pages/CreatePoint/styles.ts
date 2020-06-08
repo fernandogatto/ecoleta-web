@@ -173,7 +173,7 @@ export const ItemsGrid = styled.ul`
 
     cursor: pointer;
 
-    .selected {
+    &.selected {
       background: #E1FAEC;
       border: 2px solid #34CB79;
     }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, ChangeEvent } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import { Map, TileLayer, Marker } from 'react-leaflet';
@@ -22,9 +22,40 @@ import {
 } from './styles';
 import './styles.css';
 
+interface IItem {
+  id: string;
+  title: string;
+  image_url: string;
+}
+
+interface IIBGEStateResponse {
+  sigla: string;
+}
+
+interface IIBGECityResponse {
+  nome: string;
+}
+
 const CreatePoint: React.FC = () => {
+  const [items, setItems] = useState<IItem[]>([]);
+  const [ufs, setUfs] = useState<string[]>([]);
+  const [cities, setCities] = useState<string[]>([]);
+
+  const [selectedUf, setSelectedUf] = useState('0');
+  const [selectedCity, setSelectedCity] = useState('0');
+
   const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0, 0]);
   const [initialPosition, setInitialPosition] = useState<[number, number]>([0, 0]);
+
+  const handleSelectUf = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
+    const uf = event.target.value;
+    setSelectedUf(uf);
+  }, [selectedUf]);
+
+  const handleSelectCity = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
+    const city = event.target.value;
+    setSelectedCity(city);
+  }, [selectedCity]);
 
   const handleMapClick = useCallback((event: LeafletMouseEvent) => {
     setSelectedPosition([event.latlng.lat, event.latlng.lng]);
@@ -34,9 +65,43 @@ const CreatePoint: React.FC = () => {
     navigator.geolocation.getCurrentPosition(position => {
       const { latitude, longitude } = position.coords;
 
-      setInitialPosition([-22.9042611, -43.2880104]);
+      setInitialPosition([latitude, longitude]);
     });
   }, []);
+
+  useEffect(() => {
+    api.get('/items').then(response => {
+      setItems(response.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get<IIBGEStateResponse[]>(
+        'https://servicodados.ibge.gov.br/api/v1/localidades/estados'
+      )
+      .then(response => {
+        const ufInitials = response.data.map(uf => uf.sigla);
+
+        setUfs(ufInitials);
+      });
+  }, []);
+
+  useEffect(() => {
+    if(selectedUf === '0') {
+      return;
+    }
+
+    axios
+    .get<IIBGECityResponse[]>(
+      `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUf}/municipios`
+    )
+    .then(response => {
+      const cityNames = response.data.map(city => city.nome);
+
+      setCities(cityNames);
+    });
+  }, [selectedUf]);
 
   return (
     <Container>
@@ -108,15 +173,31 @@ const CreatePoint: React.FC = () => {
             <FieldGroup>
               <Field>
                 <label htmlFor="uf">Estado (UF)</label>
-                <select name="uf" id="uf">
+                <select
+                  name="uf"
+                  id="uf"
+                  onChange={handleSelectUf}
+                  value={selectedUf}
+                >
                   <option value="">Selecione uma UF</option>
+                  {ufs.map(uf => (
+                    <option key={uf} value={uf}>{uf}</option>
+                  ))}
                 </select>
               </Field>
 
               <Field>
                 <label htmlFor="city">Cidade</label>
-                <select name="city" id="city">
+                <select
+                  name="city"
+                  id="city"
+                  onChange={handleSelectCity}
+                  value={selectedCity}
+                >
                   <option value="">Selecione uma cidade</option>
+                  {cities.map(city => (
+                    <option key={city} value={city}>{city}</option>
+                  ))}
                 </select>
               </Field>
             </FieldGroup>
@@ -129,18 +210,15 @@ const CreatePoint: React.FC = () => {
             </legend>
 
             <ItemsGrid>
-              <li className="selected">
-                <img src="http://localhost:3333/uploads/oleo.svg" alt=""/>
-                <span>Óleo de Cozinha</span>
-              </li>
-              <li>
-                <img src="http://localhost:3333/uploads/oleo.svg" alt=""/>
-                <span>Óleo de Cozinha</span>
-              </li>
-              <li>
-                <img src="http://localhost:3333/uploads/oleo.svg" alt=""/>
-                <span>Óleo de Cozinha</span>
-              </li>
+              {items.map(item => (
+                <li
+                  key={item.id}
+                 className="selected"
+                >
+                  <img src={item.image_url} alt={item.title}/>
+                  <span>{item.title}</span>
+                </li>
+              ))}
             </ItemsGrid>
           </fieldset>
 
