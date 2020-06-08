@@ -1,11 +1,15 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+
+import Routes from './routes';
+
 import './App.css';
 
-import Home from './pages/Home';
-
-function App() {
+const App: React.FC = () => {
   return (
-    <Home />
+    <BrowserRouter>
+      <Routes />
+    </BrowserRouter>
   );
 }
 

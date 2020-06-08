@@ -43,6 +43,49 @@ export const Main = styled.div`
   flex-direction: column;
   justify-content: center;
 
+  a {
+    width: 100%;
+    max-width: 360px;
+    height: 72px;
+    background: var(--primary-color);
+    border-radius: 8px;
+    text-decoration: none;
+
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+
+    margin-top: 40px;
+    transition: background .3s;
+
+    &:hover {
+      background: #2FB86E;
+    }
+
+    span {
+      display: block;
+      background: rgba(0, 0, 0, 0.08);
+      width: 72px;
+      height: 72px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s;
+
+      svg {
+        color: #FFF;
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    strong {
+      flex: 1;
+      text-align: center;
+      color: #FFF;
+    }
+  }
   @media(max-width: 900px) {
     align-items: center;
   }
@@ -64,49 +107,5 @@ export const MainText = styled.p`
 
   @media(max-width: 900px) {
     font-size: 24px;
-  }
-`;
-
-export const MainAnchor = styled.a`
-  width: 100%;
-  max-width: 360px;
-  height: 72px;
-  background: var(--primary-color);
-  border-radius: 8px;
-  text-decoration: none;
-
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-
-  margin-top: 40px;
-  transition: background .3s;
-
-  &:hover {
-    background: #2FB86E;
-  }
-
-  span {
-    display: block;
-    background: rgba(0, 0, 0, 0.08);
-    width: 72px;
-    height: 72px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s;
-
-    svg {
-      color: #FFF;
-      width: 20px;
-      height: 20px;
-    }
-  }
-
-  strong {
-    flex: 1;
-    text-align: center;
-    color: #FFF;
   }
 `;
