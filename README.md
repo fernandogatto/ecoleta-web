@@ -34,6 +34,7 @@ To get the API, follow this [Ecoleta API](https://github.com/fernandogatto/ecole
 
 - [ReactJS](https://pt-br.reactjs.org/)
 - [TypeScript](https://www.typescriptlang.org/)
+- [React Leaflet Map](https://react-leaflet.js.org/)
 
 ## 📂 Installation <a name="installation"/>
 
@@ -72,7 +73,7 @@ Run the following command in order in terminal:
 yarn start
 ```
 
-## 🧑‍💻 Project <a name="project"/>
+## 💻 Project <a name="project"/>
 
 ![](/github/home.png)
 
