@@ -28,7 +28,7 @@
 - TDD (comming soon)
 - Light / dark theme (comming soon)
 
-To get the API, follow this [Ecoleta API](!https://github.com/fernandogatto/ecoleta-api).
+To get the API, follow this [Ecoleta API](https://github.com/fernandogatto/ecoleta-api).
 
 ## 📌 Technologies <a name="technologies"/>
 
@@ -61,7 +61,7 @@ yarn install
 
 The interface needs to interact with the server to get all the data related.
 
-Make sure to go to the [Ecoleta API](!https://github.com/fernandogatto/ecoleta-api) repository and follow the instructions in order to get it running in your machine.
+Make sure to go to the [Ecoleta API](https://github.com/fernandogatto/ecoleta-api) repository and follow the instructions in order to get it running in your machine.
 
 ## 🚀 Starting <a name="starting"/>
 
@@ -74,9 +74,9 @@ yarn start
 
 ## 🧑‍💻 Project <a name="project"/>
 
-![]('./github/home)
+![](/github/home.png)
 
-![]('./github/create-point)
+![](/github/create-point.png)
 
 ## 👍 Contribute <a name="contribute"/>
 
