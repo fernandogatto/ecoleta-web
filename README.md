@@ -77,7 +77,7 @@ yarn start
 
 ![](/github/home.png)
 
-![](/github/create-point.png)
+![](/github/point.png)
 
 ## 👍 Contribute <a name="contribute"/>
 
