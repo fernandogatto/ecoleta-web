@@ -47,7 +47,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-leaflet": "^2.5.1",
+    "@types/react-leaflet": "^2.5.2",
     "@types/react-router-dom": "^5.1.5",
     "@types/styled-components": "^5.1.0",
     "@types/yup": "^0.29.2",
