@@ -25,7 +25,6 @@
 ## 📚 Features <a name="features"/>
 
 - Create points for recycling with their items
-- Light / dark theme (comming soon)
 
 To get the API, follow this [Ecoleta API](https://github.com/fernandogatto/ecoleta-api).
 
