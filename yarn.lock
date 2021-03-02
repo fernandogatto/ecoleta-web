@@ -1630,10 +1630,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-leaflet@^2.5.1":
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/@types/react-leaflet/-/react-leaflet-2.5.1.tgz#528eedd225cc880a55cfe6c32da07e52ef7e641e"
-  integrity sha512-a6iCOLGstIsmd+Om4Ri/XUWxikF5jNy85M8wOgDyn7+Y2xx5ziVsPiiLxssLgTh12RdXkkzj7rdy0avyY3uROw==
+"@types/react-leaflet@^2.8.0":
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/@types/react-leaflet/-/react-leaflet-2.8.0.tgz#6839da9cf74cc51efcbae19b9c8732b3f7ef1172"
+  integrity sha512-bwCbUcJAR9fTIFWlhmNsaXoRzQ9miFAH+I7h9Ox4nek8JGhZQcx5hyFFWWpP+K/HEHc1zm8Vcac108+yaSJQYg==
   dependencies:
     "@types/leaflet" "*"
     "@types/react" "*"
